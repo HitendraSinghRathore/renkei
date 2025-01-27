@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "docker:build": "docker build -t renkei:latest .",
+    "docker:run": "docker run -p 3000:3000 renkei:latest"
   },
   "dependencies": {
     "next": "15.1.6",
