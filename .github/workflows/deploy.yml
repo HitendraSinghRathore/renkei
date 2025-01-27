@@ -16,9 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -37,17 +34,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Build and push Docker image
+      - name: Build Docker image
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
+          push: false  
           tags: ghcr.io/hitendrasinghrathore/renkei:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           load: false
 
-      - name: Move cache
+      - name: Push Docker image to GHCR
+        if: steps.build.outcome == 'success'
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true  
+          tags: ghcr.io/hitendrasinghrathore/renkei:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          load: false
+
+      - name: Cleanup Docker cache
+        if: always()
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Trigger Render Deployment
+        if: steps.build.outcome == 'success'
+        run: curl -X POST ${{ secrets.RENDER_HOOK }}
