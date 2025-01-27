@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+.next/cache
+.next/server
+.next/static/development
+.next/static/chunks
+.next/static/css
+.next/static/media
+.git
+.github
