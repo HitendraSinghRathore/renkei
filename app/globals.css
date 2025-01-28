@@ -1,3 +1,4 @@
+/* styles/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,17 +6,47 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #f0117a;
+  --primary-dark: #080813;
+  --accent: #feb711;
+  --white: #ffffff;
+  --dark-gray: #333333;
+
+  --light-gray: #f8f9fa;
+  --medium-gray: #6c757d;
+  --dark-gray-2: #343a40;
+  --border-gray: #dee2e6;
+
+  --success: #28a745;
+  --error: #dc3545;
+  --warning: #ffc107;
+  --info: #17a2b8;
+
+  --font-source-serif-pro: 'Source Serif 4', serif;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #0a0a0a;
+    --background: #ededed;
   }
 }
 
+/* Base Styles */
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; /* 1rem = 10px for easier calculations */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
-  color: var(--foreground);
+  color: var(--dark-gray);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-source-serif-pro);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
 }
