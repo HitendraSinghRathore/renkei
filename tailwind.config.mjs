@@ -21,6 +21,7 @@ export default {
       },
       fontFamily: {
         serif: ["var(--font-source-serif-pro)", "serif"],
+        sans: ['sans-serif']
       },
     },
   },

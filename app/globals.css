@@ -45,7 +45,7 @@ html {
 body {
   color: var(--dark-gray);
   background: var(--background);
-  font-family: var(--font-source-serif-pro);
+  font-family: var(--font-source-serif-pro) 'sans-serif';
   margin: 0;
   padding: 0;
   line-height: 1.6;
