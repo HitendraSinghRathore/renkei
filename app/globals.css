@@ -35,7 +35,8 @@
 /* Base Styles */
 html {
   box-sizing: border-box;
-  font-size: 62.5%; /* 1rem = 10px for easier calculations */
+  font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 *, *::before, *::after {
@@ -45,8 +46,13 @@ html {
 body {
   color: var(--dark-gray);
   background: var(--background);
-  font-family: var(--font-source-serif-pro) 'sans-serif';
+  font-family: var(--font-source-serif-pro), 'sans-serif';
   margin: 0;
   padding: 0;
   line-height: 1.6;
+}
+:focus-visible {
+  outline: none;
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(240, 17, 122, 0.3);
 }
