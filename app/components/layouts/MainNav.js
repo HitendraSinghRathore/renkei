@@ -59,18 +59,22 @@ export default function MainNav() {
 
         <div className="flex items-center space-x-3 sm:space-x-4">
           <Link
-            href="/login-signup"
+            href="/auth/login"
             className="
               text-primary
-              text-sm sm:text-base
+              text-sm 
+              sm:text-base
               hover:bg-pink-700
                hover:shadow-md
-              rounded-xl
+              rounded-md
+              md:rounded-lg
               bg-primary
               text-white
               border border-primary
-                px-4
-              py-2
+                px-2
+                py-1
+                md:px-4
+                md:py-2
               transition
             "
           >
@@ -78,16 +82,21 @@ export default function MainNav() {
           </Link>
 
           <Link
-            href="/login-signup"
+            href="/auth/signup"
             className="
               text-primary
-              text-sm sm:text-base
+              text-sm 
+              sm:text-base
             hover:bg-pink-100
             hover:shadow-md
+            md:rounded-lg
             border border-primary
-              px-4
-              py-2
-              rounded-xl
+                px-2
+                py-1
+               md:px-4
+                md:py-2
+              rounded-md
+
               transition
             "
           >

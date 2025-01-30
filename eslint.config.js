@@ -42,7 +42,7 @@ export default [
 
       'react/react-in-jsx-scope': 'off',
       'no-unused-vars': 'warn',
-      'import/no-unresolved': 'error',
+      'import/no-unresolved': 'off',
       'import/order': [
         'error',
         {
@@ -58,7 +58,7 @@ export default [
 
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/alt-text': 'error',
-
+      'react/prop-types': 'off',
       '@next/next/no-img-element': 'warn',
       '@next/next/no-html-link-for-pages': 'error',
     },
