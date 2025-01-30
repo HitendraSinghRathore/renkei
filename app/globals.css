@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -35,7 +37,6 @@
 /* Base Styles */
 html {
   box-sizing: border-box;
-  font-size: 62.5%;
   scroll-behavior: smooth;
 }
 

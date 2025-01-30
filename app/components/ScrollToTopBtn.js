@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 
 export default function ScrollToTopButton() {
   function handleScrollTop(e) {
@@ -13,6 +12,7 @@ export default function ScrollToTopButton() {
       type="button"
       onClick={handleScrollTop}
       aria-label="Scroll to Top"
+      aria-hidden="true"
       className="
         font-serif
         sr-only

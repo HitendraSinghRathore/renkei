@@ -1,5 +1,6 @@
 import { Source_Serif_4 } from "next/font/google";
 import "./globals.css";
+import "./styles.css";
 import PropTypes from 'prop-types';
 
 import ScrollToTopButton from "./components/ScrollToTopBtn";
@@ -25,7 +26,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${sourceSerif4.variable} font-sans antialiased`}>
+      <body className={`${sourceSerif4.variable} font-serif antialiased`}>
          <ScrollToTopButton />
         {children}
       </body>
