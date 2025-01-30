@@ -23,10 +23,10 @@ export default function MainNav() {
   return (
     <header
       className={`
-        sticky top-0 z-10 transition-colors duration-300 overflow-hidden
+        sticky top-0 z-10 transition-colors duration-300 overflow-hidden transition
         ${
           scrolled
-            ? "bg-white border-b border-gray-200"
+            ? "bg-white shadow-sm border-b border-gray-200"
             : "bg-white"
         }
       `}
@@ -63,10 +63,14 @@ export default function MainNav() {
             className="
               text-primary
               text-sm sm:text-base
-              hover:bg-pink-100
+              hover:bg-pink-700
+               hover:shadow-md
               rounded-xl
-             px-4
-              py-3
+              bg-primary
+              text-white
+              border border-primary
+                px-4
+              py-2
               transition
             "
           >
@@ -79,6 +83,7 @@ export default function MainNav() {
               text-primary
               text-sm sm:text-base
             hover:bg-pink-100
+            hover:shadow-md
             border border-primary
               px-4
               py-2
