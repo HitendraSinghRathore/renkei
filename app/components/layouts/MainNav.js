@@ -6,6 +6,7 @@ import MainNavContent from "./MainNavContent";
 
 function MainNav({ isAuthenticated }) {  
   const [scrolled, setScrolled] = useState(false);
+  const [auth, setAuth] = useState(isAuthenticated);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -17,9 +18,18 @@ function MainNav({ isAuthenticated }) {
       return () => window.removeEventListener("scroll", handleScroll);
     }
   }, []);
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [isAuthenticated]);
 
   return (
-    <MainNavContent scrolled={scrolled} isAuthenticated={isAuthenticated} /> 
+    <MainNavContent scrolled={scrolled} isAuthenticated={auth} setAuthenticated={setAuth} /> 
+   
+
   );
 }
 

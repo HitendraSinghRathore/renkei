@@ -1,7 +1,16 @@
+import AuthService from '@/app/services/authService';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
-export default function MainNavContent({ scrolled, isAuthenticated }) {
+export default function MainNavContent({ scrolled, isAuthenticated, setAuthenticated }) {
+  const logout = () => {
+    AuthService.logout().then(() => {
+      setAuthenticated(false);
+    }).catch((error) => {
+     toast.error('Error logging out');
+    });
+  }
   return (
     <header
       className={`
@@ -37,7 +46,7 @@ export default function MainNavContent({ scrolled, isAuthenticated }) {
 
         <div className="flex items-center space-x-3 sm:space-x-4">
           {isAuthenticated ? (
-            <Link
+            <button
               className="text-primary
                                 text-sm 
                                 sm:text-base
@@ -53,10 +62,10 @@ export default function MainNavContent({ scrolled, isAuthenticated }) {
                                 md:px-4
                                 md:py-2
                                 transition"
-              href="/profile"
+              onClick={logout}
             >
-              Profile
-            </Link>
+              Logout
+            </button>
           ) : (
             <>
               <Link

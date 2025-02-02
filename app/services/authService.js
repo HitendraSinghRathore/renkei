@@ -1,4 +1,4 @@
-import api from './api';
+import api, { setBearerToken } from './api';
 
 let userProfile = null;
 
@@ -17,7 +17,12 @@ const AuthService = {
       throw error;
     }
   },
-
+  logout: async() => {
+      await api.post('/auth/logout');
+      userProfile = null;
+      setBearerToken(null);
+      return { success: true };
+  },
   signup:  (data) => {
      return api.post('/auth/signup', data);
   },
