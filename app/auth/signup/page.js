@@ -114,6 +114,7 @@ export default function SignUpComponent() {
           <p className="text-md text-gray-600 mb-4 text-muted sm:mb-8">
             Create an account to start using Renkei.
           </p>
+          <form noValidate >
           <div className="flex sm:flex-row flex-col gap-4 mb-4">
             <div className="flex-1">
               <Label htmlFor="firstName" className="mb-4 text-md text-gray-600">
@@ -224,10 +225,12 @@ export default function SignUpComponent() {
               {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+          </form>
           <button
             className="bg-primary text-white rounded-md py-2 px-4 w-full hover:bg-pink-600 hover:shadow-md transition mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={(e) => handleSignUp(e)}
             disabled={!formValid || loading}
+            aria-disabled={!formValid || loading}
           > 
             {loading ? <div className="py-2"><LoaderComponent /></div> :   "Sign up" }
           </button>

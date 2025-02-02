@@ -43,18 +43,6 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'no-unused-vars': 'warn',
       'import/no-unresolved': 'off',
-      'import/order': [
-        'error',
-        {
-          groups: [
-            ['builtin', 'external'],
-            'internal',
-            ['parent', 'sibling', 'index'],
-          ],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
 
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/alt-text': 'error',

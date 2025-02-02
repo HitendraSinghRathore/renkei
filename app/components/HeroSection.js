@@ -11,7 +11,7 @@ export default function HeroSection() {
         <Link
           aria-label="navigate to dashboard"
           role="button"
-          href="/"
+          href="/dashboard"
           className="bg-primary hover:bg-pink-600 text-white rounded-xl transition px-4 py-2 sm:py-4 font-bold text-sm md:text-lg md:text-base hover:shadow-md"
         >
           Go to dashboard

@@ -10,7 +10,7 @@
   --foreground: #171717;
   --primary: #f0117a;
   --primary-dark: #080813;
-  --accent: #feb711;
+  --accent: #e9c7dd;
   --white: #ffffff;
   --dark-gray: #333333;
 
@@ -25,6 +25,15 @@
   --info: #17a2b8;
 
   --font-source-serif-pro: 'Source Serif 4', serif;
+  
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 332 88% 50%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: #343a40;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 }
 
 @media (prefers-color-scheme: light) {
