@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/app/components/ui/sidebar';
 import AppSidebar from '../components/AppSidebar';
 import useIsMobile from '../components/hooks/useIsMobile';
@@ -19,45 +19,55 @@ import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
   const [profile, setProfile] = useState(null);
-  const [loadingProfile , setLoadingProfile] = useState(true);
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const router = useRouter();
-  useEffect(() => {
-    const cachedProfile = AuthService.getUserProfile();
-    if (cachedProfile) {
-      setProfile(cachedProfile);
-      setLoadingProfile(false); 
-      return;
-    }
+  const isMobile = useIsMobile(768);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-    AuthService.getProfile()
-      .then((profile) => {
-        setProfile(profile);
-      })
-      .catch((error) => {
-        console.error("Error fetching profile:", error);
+  // Memoized handler for sidebar open state changes.
+  const handleOpenChange = useCallback((open) => {
+    setSidebarOpen(open);
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const cachedProfile = AuthService.getUserProfile();
+        if (cachedProfile) {
+          setProfile(cachedProfile);
+          return;
+        }
+        const profileData = await AuthService.getProfile();
+        setProfile(profileData);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
         if (error.response?.status === 401 && error.response?.data?.redirect) {
           router.replace('/auth/login');
         }
-        setProfile(null); 
-      })
-      .finally(() => setLoadingProfile(false)); 
-  }, []);
-  const isMobile = useIsMobile(768);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const handleOpenChange = (open) => {
-    setSidebarOpen(open);
-  };
+        setProfile(null);
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
+
+    fetchProfile();
+  }, [router]);
+
+  // Early return while profile is loading.
+  if (loadingProfile) {
+    return null;
+  }
+
   return (
-     !loadingProfile ?  
     <div className="bg-gray-200">
       <SidebarProvider
         title=""
         open={sidebarOpen}
         onOpenChange={handleOpenChange}
       >
-        {isMobile ? (
+        {isMobile && (
           <header className="fixed top-0 bg-white w-full flex items-center justify-between overflow-hidden px-4">
-            <Link href="/" className="h-16  object-contain flex-shrink-0">
+            <Link href="/" className="h-16 object-contain flex-shrink-0">
               <Image
                 src="/logo-crop.png"
                 alt="Renkei Logo"
@@ -67,11 +77,16 @@ export default function Dashboard() {
               />
             </Link>
           </header>
-        ) : (
-          ''
         )}
-        <AppSidebar sidebarOpen={sidebarOpen} firstName={profile?.firstName} lastName={profile?.lastName} phone={profile?.phone} email={profile?.email} id={profile?.id} setProfile={setProfile} />
-
+        <AppSidebar
+          sidebarOpen={sidebarOpen}
+          firstName={profile?.firstName}
+          lastName={profile?.lastName}
+          phone={profile?.phone}
+          email={profile?.email}
+          id={profile?.id}
+          setProfile={setProfile}
+        />
         <main className="p-4 pt-20 md:p-8 md:pt-12 flex-1 ">
           <header className="flex items-center text-2xl md:text-3xl gap-2 mb-4 md:mb-4">
             <SidebarTrigger />
@@ -83,21 +98,21 @@ export default function Dashboard() {
           </header>
           <section className="p-1">
             <div className="mb-10">
-            <Select >
-              <SelectTrigger className="w-[180px] border border-gray-400">
-                <SelectValue placeholder="Select project status" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="mine">Mine</SelectItem>
-                <SelectItem value="shared">Shared</SelectItem>
-              </SelectContent>
-            </Select>
+              <Select>
+                <SelectTrigger className="w-[180px] border border-gray-400">
+                  <SelectValue placeholder="Select project status" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="mine">Mine</SelectItem>
+                  <SelectItem value="shared">Shared</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <DashboardPage />
           </section>
         </main>
       </SidebarProvider>
-    </div> : '' 
+    </div>
   );
 }

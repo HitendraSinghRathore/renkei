@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
 import { setBearerToken } from '@/app/services/api';
 
 export default function CallbackPage() {
@@ -10,19 +9,13 @@ export default function CallbackPage() {
 
   useEffect(() => {
     const { hash } = window.location;
-    if (hash) {
-      const params = new URLSearchParams(hash.slice(1));
-      const accessToken = params.get('accessToken');
-      if (accessToken) {
-        setBearerToken(accessToken);
+    const params = new URLSearchParams(hash ? hash.slice(1) : '');
+    const accessToken = params.get('accessToken');
 
-        router.replace('/');
-      } else {
-        router.replace('/');
-      }
-    } else {
-      router.replace('/');
+    if (accessToken) {
+      setBearerToken(accessToken);
     }
+    router.replace('/');
   }, [router]);
 
   return (
