@@ -1,12 +1,23 @@
+"use client"
 import Image from "next/image";
 import ProjectCard from "../ProjectCard";
+import { Skeleton } from "../ui/skeleton";
+import { useState } from "react";
 
-export default function DashboardPage({projects}) {
+export default function DashboardPage({projects}) { 
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
       {projects?.length > 0 ? (
         <div>
-          <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
+         
+            {isLoading ? 
+            <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+            </div> : 
+           <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
@@ -16,8 +27,9 @@ export default function DashboardPage({projects}) {
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
            <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-            
-          </div>
+           </div>
+}
+          
         </div>
       ) : (
         <div className="flex flex-col gap-8 items-center justify-center">
