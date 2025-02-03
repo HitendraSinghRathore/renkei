@@ -1,15 +1,22 @@
 import Image from "next/image";
+import ProjectCard from "../ProjectCard";
 
 export default function DashboardPage({projects}) {
   return (
     <div>
       {projects?.length > 0 ? (
         <div>
-          <div className="grid grid-cols-3 gap-4">
-            <div>Project 1</div>
-            <div>Project 1</div>
-            <div>Project 1</div>
-            <div>Project 1</div>
+          <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
+            
           </div>
         </div>
       ) : (
