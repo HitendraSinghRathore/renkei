@@ -1,13 +1,16 @@
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { Badge } from "./ui/badge";
-import { EllipsisVertical, PenBoxIcon, Trash2Icon } from "lucide-react";
+import {  EllipsisVertical, Pen, TextCursorInput, Trash2Icon } from "lucide-react";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import React from "react";
+import { useRouter } from "next/navigation";
 
-export default function ProjectCard({ id, name, updatedAt, owner, access }) {
+function ProjectCard({ id, name, updatedAt, owner, access, onUpdate, onDelete }) {
+  const router = useRouter();
   return (
     <div
       className="bg-white border border-gray-200 rounded-xl cursor-pointer shadow-sm transition-all duration-300 transform hover:shadow-xl hover:-translate-y-1 p-2 md:p-4"
@@ -28,13 +31,24 @@ export default function ProjectCard({ id, name, updatedAt, owner, access }) {
 
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-white">
-              <DropdownMenuItem>
+            <DropdownMenuItem  onSelect={() => requestAnimationFrame(() => {
+               router.push(`/project/${id}`);
+              })}>
+                <Pen/>
+              Edit
+            </DropdownMenuItem>
+              <DropdownMenuItem onSelect={(e) => {
+                e.preventDefault();
+              requestAnimationFrame(() => {
+                onUpdate({ id, name });
+              });
+            }}>
               
-                  <PenBoxIcon aria-hidden="true" />
+                  <TextCursorInput aria-hidden="true" />
                   <span>Rename</span>
                 
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500">
+              <DropdownMenuItem className="text-red-500" onSelect={(e) =>{e.preventDefault(); requestAnimationFrame(() => {onDelete({id})} ) }}>
                
                   <Trash2Icon aria-hidden="true" />
                   <span>Delete</span>
@@ -52,7 +66,7 @@ export default function ProjectCard({ id, name, updatedAt, owner, access }) {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div className="text-xs text-gray-500">
           <span>Updated </span>
-          <span className="font-medium text-sm text-gray-800">{updatedAt}</span>
+          <span className="font-medium text-sm text-gray-800">{new Date(updatedAt).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</span>
         </div>
         <Badge variant="primary" className="mt-2 sm:mt-0">
           {access}
@@ -61,3 +75,5 @@ export default function ProjectCard({ id, name, updatedAt, owner, access }) {
     </div>
   );
 }
+
+export default React.memo(ProjectCard);

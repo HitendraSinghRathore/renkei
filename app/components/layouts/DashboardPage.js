@@ -1,35 +1,31 @@
-"use client"
+
 import Image from "next/image";
 import ProjectCard from "../ProjectCard";
 import { Skeleton } from "../ui/skeleton";
-import { useState } from "react";
+import PaginationNav from "./PaginationNav";
 
-export default function DashboardPage({projects}) { 
-  const [isLoading, setIsLoading] = useState(false);
+export default function DashboardPage({projects, isLoading, onUpdate, onDelete, pageItems, onPageChange}) {
   return (
     <div>
-      {projects?.length > 0 ? (
+      {isLoading ? 
+        <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+                <Skeleton className="w-full h-40 rounded bg-gray-300" />
+            </div> :  
+      projects?.length > 0 ? (
         <div>
-         
-            {isLoading ? 
-            <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
-                <Skeleton className="w-full h-40 rounded bg-gray-300" />
-                <Skeleton className="w-full h-40 rounded bg-gray-300" />
-                <Skeleton className="w-full h-40 rounded bg-gray-300" />
-            </div> : 
-           <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           <ProjectCard id={1} name="Project 1 Is created when the data is beung pushed" updatedAt={'May 12 2024'} owner={'Hitendra Rathore'} access="write" />
-           </div>
-}
-          
+            <section className="flex flex-col gap-8">
+                <div className="grid grid-cols-1 gap-4 md:gap-8  md:grid-cols-2 lg:grid-cols-3">
+                    {projects.map((project) => (
+                        <ProjectCard key={project.id} id={project.id} name={project.name} updatedAt={project.updatedAt} owner={project.owner.name} ownerId={project.owner.id} access={project.access} onDelete={onDelete} onUpdate={onUpdate} />
+                    ))}
+              </div>
+              {pageItems.total > pageItems.limit && (
+                <PaginationNav onPageChange={onPageChange} {...pageItems}/>
+              )}
+               
+           </section>
         </div>
       ) : (
         <div className="flex flex-col gap-8 items-center justify-center">

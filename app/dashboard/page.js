@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import debounce from 'lodash/debounce';
 import { SearchIcon } from 'lucide-react';
@@ -23,15 +23,127 @@ import useIsMobile from '../components/hooks/useIsMobile';
 
 import AuthService from '../services/authService';
 import projectService from '../services/projectService';
+import { DialogWrapper } from '../components/ui/dialog-wrapper';
+import CreateDialogComponent from '../components/CreateDialog';
+import { toast } from 'react-toastify';
 
 export default function Dashboard() {
 
   const [profile, setProfile] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingProfile, setLoadingProfile] = useState(true);
+  const [pageItems, setPageItems] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 0,
+    hasNext: false, 
+    hasPrev: false
+  }); 
 
   const [projects, setProjects] = useState([]);
-  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [loadingProjects, setLoadingProjects] = useState();
+
+  const [isDialogAOpen, setIsDialogAOpen]  = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const [name, setName] = useState('');
+  const [disbaleCreate, setDisableCreate] = useState(true);
+  const projectIdRef = useRef(null);
+  const editModeRef = useRef(false);
+  const dialogClosed = () => {
+    setName('');
+    setError(null);
+    setIsDialogAOpen(false);
+    editModeRef.current = false;
+    projectIdRef.current = null;
+   
+  }
+  const onCreateChange = (e) => {
+    let newProject = e.target.value.trim();
+      setName(e.target.value);
+    if(newProject.length === 0) {
+      setError('Project name cannot be empty');
+      setDisableCreate(true);
+    } else {
+      setError(null);
+      setDisableCreate(false);
+    }
+
+  }
+  const createProject = () => {
+    setDisableCreate(true);
+    projectService
+      .createProject(name).then(({data}) => {
+        setName('');
+        setIsDialogAOpen(false);
+        projectIdRef.current=null;
+        router.push('/project/'+ data.id);
+      })
+      .catch((error) => {
+        console.error('Error creating project:', error);
+        setError(error.response.data?.message);
+        toast.error(error.response.data?.message ?? 'Error creating project');
+      })
+      .finally(() => {
+        setDisableCreate(false)
+      });
+  }
+  const updateProjectName = () => {
+    setDisableCreate(true);
+    projectService
+      .updateProject({id: projectIdRef.current,name}).then((data) => {
+        setName('');
+        setIsDialogAOpen(false);
+        projectIdRef.current=null;
+        toast.success('Project updated successfully');
+        fetchProjects();
+      })
+      .catch((error) => {
+        console.error('Error creating project:', error);
+        setError(error.response.data.message);
+      })
+      .finally(() => {
+        setDisableCreate(false)
+      });
+  }
+  const onRename = ({id,name}) => {
+    projectIdRef.current = id;
+    editModeRef.current = true;
+    setName(name);
+    setDisableCreate(false);
+    setIsDialogAOpen(true);
+  
+  }
+  const onDelete = ({id}) => {
+    projectIdRef.current=id;
+    setIsDeleteDialogOpen(true);
+   
+  }
+  const onSubmitForm = () => {
+    console.log('Form submitted')
+    if(editModeRef.current) {
+      updateProjectName();
+    } else {
+      createProject();
+    }
+  }
+  const confirmDelete = () => {
+    setIsDeleteDialogOpen(false);
+    projectService
+      .deleteProject( projectIdRef.current).then(() => {
+        toast.success('Project deleted successfully');
+        fetchProjects();
+      })
+      .catch((error) => {
+        console.error('Error deleting project:', error);
+        toast.error('Error deleting project');
+      })
+      .finally(() => {  
+        projectIdRef.current=null;
+      });
+
+  }
 
   const [filters, setFilters] = useState({
     name: '',
@@ -66,7 +178,34 @@ export default function Dashboard() {
     setFilters((prev) => ({ ...prev, status: newStatus, page: 1 }));
   };
 
+const onPageChange = ({page,limit}) => {
+  setFilters((prev) => ({ ...prev, page,limit }));
+};
+  const fetchProjects = () => {
+    setLoadingProjects(true);
+    projectService
+      .getProjects(filters)
+      .then((data) => {
+ 
+          setProjects(data.items);
+          setPageItems(data.pageItems);
+   
+      })
+      .catch((error) => {
+        console.error('Error fetching projects:', error);
+      })
+      .finally(() => {
 
+          setLoadingProjects(false);
+
+      });
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedFilterUpdate.cancel();
+    };
+  }, [debouncedFilterUpdate]);
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -92,31 +231,7 @@ export default function Dashboard() {
   }, [router]);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const fetchProjects = () => {
-      setLoadingProjects(true);
-      projectService
-        .getProjects(filters)
-        .then((data) => {
-          if (isMounted) {
-            setProjects(data);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching projects:', error);
-        })
-        .finally(() => {
-          if (isMounted) {
-            setLoadingProjects(false);
-          }
-        });
-    };
-
     fetchProjects();
-    return () => {
-      isMounted = false;
-    };
   }, [filters]);
 
 
@@ -159,11 +274,29 @@ export default function Dashboard() {
               <Separator orientation="vertical" className="mr-2 h-4 bg-gray-400" />
               <h1 className="font-bold">Dashboard</h1>
             </div>
-            <Button className="bg-primary text-white rounded-md py-1 px-2 sm:py-2 sm:px-4 hover:bg-pink-600 hover:shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">
+            <Button className="bg-primary text-white rounded-md py-1 px-2 sm:py-2 sm:px-4 hover:bg-pink-600 hover:shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => setIsDialogAOpen(true)}>
               New project
             </Button>
           </header>
+        <DialogWrapper
+          isOpen={isDialogAOpen}
+          onOpenChange={dialogClosed}
+          title={editModeRef.current ? "Rename project" : "Create new project"}
+          description={editModeRef.current ? "Please enter new name for project" : "Please enter name to create a new project"}
+          content={<CreateDialogComponent onChange={onCreateChange} error={error} value={name}/>}
+          footer={editModeRef.current ? <Button className="text-white hover:bg-pink-600 hover:shadow-md" disabled={disbaleCreate} onClick={onSubmitForm}>Update</Button> : <Button className="text-white hover:bg-pink-600 hover:shadow-md" disabled={disbaleCreate} onClick={onSubmitForm}>Create</Button>}
+        >
 
+        </DialogWrapper>
+        <DialogWrapper
+          isOpen={isDeleteDialogOpen}
+          onOpenChange={setIsDeleteDialogOpen}
+          title="Confirm deletion"
+          description="Deleting this project is irreversible, and you along with any user this is shared it with will loose access Are you sure you want to delete this project?"
+          footer={ <Button variant="destructive" onClick={confirmDelete}>Delete</Button> }
+        >
+
+        </DialogWrapper>
           <section className="p-1">
             <div className="flex flex-col sm:flex-row justify-between items-start mb-8 md:mb-10">
               <div className="relative mb-2 md:mb-0">
@@ -193,8 +326,7 @@ export default function Dashboard() {
                 </Select>
               </div>
             </div>
-
-            <DashboardPage projects={projects} isLoading={loadingProjects} />
+            <DashboardPage projects={projects} isLoading={loadingProjects} onUpdate={onRename} onDelete={onDelete}  onPageChange={onPageChange} pageItems={pageItems} />
           </section>
         </main>
       </SidebarProvider>
