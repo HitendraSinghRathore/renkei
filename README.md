@@ -1,6 +1,8 @@
-# Renkei Frontend
+# Renkei
 
+![Renkei dashboard](./public/home-page.png)
 ![Renkei](https://via.placeholder.com/800x200?text=Renkei+Frontend)
+
 
 Renkei is a collaborative whiteboard app frontend built with **Next.js (v15)**. It leverages **Tailwind CSS** for styling, **Radix UI** for accessible components, and **Socket.io** for real-time updates.
 
@@ -46,7 +48,15 @@ Before running the frontend, ensure you have installed:
 
 ## Environment Variables
 
-Create a `.env.local` file in the project root with the following configuration:
+This project does not use any ENV_VARS or any .env file.
+The only variable used in backend URL
+```javascript
+API_DOMAIN = https://localhost:8080
+```
+This variable is store in api.js file.
 
-```env
-NEXT_PUBLIC_API_URL=https://your-backend-domain.com/api
+---
+
+### Setup & Installation
+
+
