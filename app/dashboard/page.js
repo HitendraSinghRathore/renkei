@@ -178,7 +178,7 @@ export default function Dashboard() {
     setFilters((prev) => ({ ...prev, status: newStatus, page: 1 }));
   };
 
-const onPageChange = ({page,limit}) => {
+const onPageChange = (page,limit) => {
   setFilters((prev) => ({ ...prev, page,limit }));
 };
   const fetchProjects = () => {
@@ -320,7 +320,7 @@ const onPageChange = ({page,limit}) => {
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="mine">Mine</SelectItem>
+                    <SelectItem value="owned">Mine</SelectItem>
                     <SelectItem value="shared">Shared</SelectItem>
                   </SelectContent>
                 </Select>

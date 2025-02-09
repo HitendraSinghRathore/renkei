@@ -11,27 +11,7 @@ const ProjectService = {
       const response = await api.get("/project", {
         params
       });
-      return {
-        "items": [{
-          id: 1,
-          name: "12313132313",
-          access: "write",
-          owner: {
-            id: 123,
-            name: "Test user"
-          },
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }],
-        "pageItems": {
-            "page": 1,
-            "limit": 10,
-            "total": 85,
-            "totalPages": 9,
-            "hasNext": true,
-            "hasPrev": false
-        }
-    };
+      return response.data;
    
   },
   updateProject: async ({id, name, content}) => {
@@ -58,6 +38,18 @@ const ProjectService = {
         }
       }
     });
+    return response.data;
+  },
+  getProject: async(id) => {
+    const response = await api.get(`/project/${id}`);
+    return response.data;
+  } ,
+  getMembers: async(id) => {
+    const response = await api.get(`/project/${id}/members`);
+    return response.data;
+  },
+  shareMember: async (projectId,data) => {
+    const response = await api.post(`/project/${projectId}/share`, data);
     return response.data;
   }
 };

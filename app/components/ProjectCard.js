@@ -13,7 +13,7 @@ function ProjectCard({ id, name, updatedAt, owner, access, onUpdate, onDelete })
   const router = useRouter();
   return (
     <div
-      className="bg-white border border-gray-200 rounded-xl cursor-pointer shadow-sm transition-all duration-300 transform hover:shadow-xl hover:-translate-y-1 p-2 md:p-4"
+      className="bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-300 transform hover:shadow-xl hover:-translate-y-1 p-2 md:p-4"
       role="button"
       tabIndex={0}
       aria-label={`Project card for ${name}. ${
