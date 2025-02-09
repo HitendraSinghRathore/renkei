@@ -1,7 +1,8 @@
 # Renkei
+[Visit site](https://renkei-latest.onrender.com/)
 
 ![Renkei dashboard](./public/home-page.png)
-![Renkei](https://via.placeholder.com/800x200?text=Renkei+Frontend)
+
 
 
 Renkei is a collaborative whiteboard app frontend built with **Next.js (v15)**. It leverages **Tailwind CSS** for styling, **Radix UI** for accessible components, and **Socket.io** for real-time updates.
