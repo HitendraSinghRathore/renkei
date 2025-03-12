@@ -41,7 +41,7 @@ export default [
       ...nextPlugin.configs['core-web-vitals'].rules,
 
       'react/react-in-jsx-scope': 'off',
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'error',
       'import/no-unresolved': 'off',
 
       'jsx-a11y/anchor-is-valid': 'warn',
