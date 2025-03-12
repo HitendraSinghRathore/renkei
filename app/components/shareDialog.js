@@ -13,7 +13,7 @@ import {
 import { X, PlusIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 
-// Define the email regular expression outside the component.
+
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -46,7 +46,6 @@ export default function ShareDialogComponent({ projectId, setUsers }) {
     }
   }, [projectId, setUsers]);
 
-  // Validate the email input.
   const getError = useCallback(
     (email) => {
       if (!emailRegex.test(email.toLowerCase())) {
