@@ -25,7 +25,6 @@ export default function ShareDialogComponent({ projectId, setUsers }) {
   const [error, setError] = useState(null);
   const [currentAccess, setCurrentAccess] = useState("read");
 
-  // Fetch available members when the component mounts or when projectId changes.
   useEffect(() => {
     const fetchMembers = async () => {
       try {
