@@ -15,7 +15,6 @@ import AuthService from '@/app/services/authService';
 export default function LoginComponent() {
   const router = useRouter();
 
-  // Memoize the email regex pattern to prevent re-creation on every render.
   const emailRegex = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/, []);
 
   const [loading, setLoading] = useState(false);
