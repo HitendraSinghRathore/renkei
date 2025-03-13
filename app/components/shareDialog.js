@@ -59,14 +59,13 @@ export default function ShareDialogComponent({ projectId, setUsers }) {
     [availableMembers]
   );
 
-  // Add a member based on the current access level.
   const handleAddMember = useCallback(() => {
     const validationError = getError(emailInput);
     setError(validationError);
     if (validationError) return;
 
     const member = availableMembers.find((m) => m.email === emailInput);
-    if (!member) return; // Safety check
+    if (!member) return; 
 
     if (currentAccess === "read") {
       const newReadMembers = [...readMembers, { ...member, access: "read" }];
