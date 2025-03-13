@@ -149,7 +149,7 @@ export default function ProjectPage({ params }) {
               
           }
       });
-    } catch (error) {
+    } catch (_) {
       toast.error("Error updating project");
       isUpdatedByMe.current = false;
     }

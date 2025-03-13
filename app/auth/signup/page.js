@@ -16,7 +16,6 @@ import AuthService from "@/app/services/authService";
 export default function SignUpComponent() {
   const router = useRouter();
 
-  // Form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -89,7 +88,7 @@ export default function SignUpComponent() {
     passwordRegex,
   ]);
 
-  // Validate form on every change of form fields.
+
   useEffect(() => {
     validateForm();
   }, [firstName, lastName, email, phone, password, confirmPassword, validateForm]);
