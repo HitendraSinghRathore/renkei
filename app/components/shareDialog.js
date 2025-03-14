@@ -79,7 +79,6 @@ export default function ShareDialogComponent({ projectId, setUsers }) {
     setEmailInput("");
   }, [availableMembers, emailInput, currentAccess, readMembers, writeMembers, getError, setUsers]);
 
-  // Remove a member based on the access level.
   const removeMember = useCallback(
     (id, access) => {
       if (access === "read") {
