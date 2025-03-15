@@ -105,8 +105,6 @@ export default function ProjectPage({ params }) {
 
   useEffect(() => {
     if (!socket.current && projectId && profile) {
-        // socket not setup yet
-        console.log('socket not setup yet');
         socket.current = connectSocket( profile.id, projectId);
 
         socket.current.on(SOCKET_EVENTS.ACTIVE_USERS,(data) => {
