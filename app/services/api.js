@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 export const API_DOMAIN = 'https://renkei-backend.onrender.com';
-// export const API_DOMAIN = 'http://localhost:8080';
 
 let bearerToken = '';
 
