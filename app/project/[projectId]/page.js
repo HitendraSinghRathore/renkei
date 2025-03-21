@@ -12,7 +12,6 @@ import { Button } from "@/app/components/ui/button";
 import CreateDialogComponent from "@/app/components/CreateDialog";
 import { connectSocket, disconnectSocket, SOCKET_EVENTS } from "@/app/services/socket";
 
-// Example fallback initial data (if project content is not available)
 const fallbackInitialData = {
   elements: [
     {
