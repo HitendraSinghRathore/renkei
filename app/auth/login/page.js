@@ -51,6 +51,7 @@ export default function LoginComponent() {
     window.location.href = `${API_DOMAIN}/auth/google`;
   }, []);
 
+  
   const handleLogin = useCallback(
     (e) => {
       e.preventDefault();
